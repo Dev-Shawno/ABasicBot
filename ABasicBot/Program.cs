@@ -1,38 +1,5 @@
-using Discord;
-using Discord.WebSocket;
+using ABasicBot;
 
-var token = Environment.GetEnvironmentVariable("DISCORD_TOKEN")
-    ?? throw new InvalidOperationException("DISCORD_TOKEN environment variable is not set.");
-
-var client = new DiscordSocketClient(new DiscordSocketConfig
-{
-    GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
-});
-
-client.Log += msg =>
-{
-    Console.WriteLine(msg.ToString());
-    return Task.CompletedTask;
-};
-
-client.MessageReceived += async message =>
-{
-    if (message.Author.IsBot) return;
-
-    if (message.Content.Equals("!ping", StringComparison.OrdinalIgnoreCase))
-        await message.Channel.SendMessageAsync("Pong!");
-
-    if (message.Content.Equals("!hello", StringComparison.OrdinalIgnoreCase))
-        await message.Channel.SendMessageAsync($"Hey {message.Author.Username}!");
-};
-
-client.Ready += () =>
-{
-    Console.WriteLine($"Logged in as {client.CurrentUser.Username}");
-    return Task.CompletedTask;
-};
-
-await client.LoginAsync(TokenType.Bot, token);
-await client.StartAsync();
-
+var bot = new BasicBot();
+await bot.StartBotAsync();
 await Task.Delay(Timeout.Infinite);
