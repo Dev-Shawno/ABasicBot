@@ -1,4 +1,5 @@
 using ABasicBot.Commands;
+using ABasicBot.Services;
 using Discord;
 using ShawnoStudios.Common.DiscordUtils;
 
@@ -13,7 +14,7 @@ public class BasicBot : DiscordBot
     public override GatewayIntents Intents =>
         GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent;
 
-    public BasicBot()
+    public BasicBot(UserService userService)
     {
         client.Log += msg =>
         {
@@ -27,7 +28,14 @@ public class BasicBot : DiscordBot
             return Task.CompletedTask;
         };
 
-        commands.RegisterCommand<PingCommand>();
-        commands.RegisterCommand<HelloCommand>();
+        client.MessageReceived += async message =>
+        {
+            if (message.Author.IsBot) return;
+            if (!message.Content.StartsWith('!')) return;
+            await userService.TrackUserAsync(message.Author);
+        };
+
+        commands.RegisterCommand(new PingCommand());
+        commands.RegisterCommand(new HelloCommand());
     }
 }
