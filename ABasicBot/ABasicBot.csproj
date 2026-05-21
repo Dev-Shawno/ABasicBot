@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\ShawnoStudios.Common\ShawnoStudios.Common.Discord\ShawnoStudios.Common.DiscordUtils.csproj" />
+      <ProjectReference Include="..\ShawnoStudios.Common.Discord\ShawnoStudios.Common.DiscordUtils.csproj" />
     </ItemGroup>
 
 </Project>
