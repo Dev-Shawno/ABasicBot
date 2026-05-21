@@ -21,6 +21,9 @@ client.MessageReceived += async message =>
 
     if (message.Content.Equals("!ping", StringComparison.OrdinalIgnoreCase))
         await message.Channel.SendMessageAsync("Pong!");
+
+    if (message.Content.Equals("!hello", StringComparison.OrdinalIgnoreCase))
+        await message.Channel.SendMessageAsync($"Hey {message.Author.Username}!");
 };
 
 client.Ready += () =>
