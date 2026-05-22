@@ -3,8 +3,12 @@ using ABasicBot.Data;
 using ABasicBot.Services;
 using Microsoft.EntityFrameworkCore;
 
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
-    ?? throw new InvalidOperationException("DATABASE_URL environment variable is not set.");
+var connectionString = $"Host={Environment.GetEnvironmentVariable("PGHOST")};" +
+    $"Port={Environment.GetEnvironmentVariable("PGPORT") ?? "5432"};" +
+    $"Database={Environment.GetEnvironmentVariable("PGDATABASE")};" +
+    $"Username={Environment.GetEnvironmentVariable("PGUSER")};" +
+    $"Password={Environment.GetEnvironmentVariable("PGPASSWORD")};" +
+    "SSL Mode=Require;Trust Server Certificate=true";
 
 var dbOptions = new DbContextOptionsBuilder<BotDbContext>()
     .UseNpgsql(connectionString)
